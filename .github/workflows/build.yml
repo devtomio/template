@@ -12,19 +12,15 @@ jobs:
       PROJECT_NAME: rust-gh-example
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run cargo generate
-        uses: cargo-generate/cargo-generate-action@v0.13.0
+        uses: cargo-generate/cargo-generate-action@v0.20.0
         with:
           name: ${{ env.PROJECT_NAME }}
-          subfolder: template
-          template_values_file: .github/workflows/template_values.toml
+          template: template
+          arguments: "--template-values-file .github/workflows/template_values.toml --verbose"
       - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       - name: Cargo check
         # we need to move the generated project to a temp folder, away from the template project
         # otherwise `cargo` runs would fail
