@@ -15,16 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-      # Ensure that the latest version of Cargo is installed
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
-      - uses: Swatinem/rust-cache@v1
-      - uses: actions-rs/audit-check@v1
+        uses: actions/checkout@v4
+      - name: Run security audit
+        uses: rustsec/audit-check@v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 {% endraw  %}
